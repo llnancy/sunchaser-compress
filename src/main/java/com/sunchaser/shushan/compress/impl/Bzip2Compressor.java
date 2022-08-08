@@ -1,19 +1,20 @@
-package com.sunchaser.compress.impl;
+package com.sunchaser.shushan.compress.impl;
 
-import com.sunchaser.compress.util.IoUtils;
+import com.sunchaser.shushan.compress.util.IoUtils;
 import lombok.SneakyThrows;
-import org.anarres.lzo.*;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 /**
- * 基于lzo（Lempel-Ziv-Oberhumer）算法实现的压缩与解压缩
+ * 基于bzip2算法实现的压缩与解压缩
  *
  * @author sunchaser admin@lilu.org.cn
  * @since JDK8 2022/7/20
  */
-public class LzoCompressor extends AbstractCompressor {
+public class Bzip2Compressor extends AbstractCompressor {
 
     /**
      * 将数据进行压缩
@@ -21,12 +22,12 @@ public class LzoCompressor extends AbstractCompressor {
      * @param data 原比特数组
      * @return 压缩后的数据
      */
-    @SneakyThrows
+    @SneakyThrows({Throwable.class, Exception.class})
     @Override
     protected byte[] doCompress(byte[] data) {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
-             LzoOutputStream lzoOs = new LzoOutputStream(bos, LzoLibrary.getInstance().newCompressor(LzoAlgorithm.LZO1X, null))) {
-            lzoOs.write(data);
+             BZip2CompressorOutputStream bzip2 = new BZip2CompressorOutputStream(bos)) {
+            bzip2.write(data);
             return bos.toByteArray();
         }
     }
@@ -37,12 +38,12 @@ public class LzoCompressor extends AbstractCompressor {
      * @param data 压缩的数据
      * @return 原数据
      */
-    @SneakyThrows
+    @SneakyThrows({Throwable.class, Exception.class})
     @Override
     protected byte[] doUnCompress(byte[] data) {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
-             LzoInputStream lzoIs = new LzoInputStream(new ByteArrayInputStream(data), LzoLibrary.getInstance().newDecompressor(LzoAlgorithm.LZO1X, LzoConstraint.SPEED))) {
-            IoUtils.copy(lzoIs, bos);
+             BZip2CompressorInputStream unzip = new BZip2CompressorInputStream(new ByteArrayInputStream(data))) {
+            IoUtils.copy(unzip, bos);
             return bos.toByteArray();
         }
     }

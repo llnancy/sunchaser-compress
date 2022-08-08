@@ -1,6 +1,6 @@
-package com.sunchaser.compress.impl;
+package com.sunchaser.shushan.compress.impl;
 
-import com.sunchaser.compress.util.IoUtils;
+import com.sunchaser.shushan.compress.util.IoUtils;
 import lombok.SneakyThrows;
 import net.jpountz.lz4.LZ4BlockInputStream;
 import net.jpountz.lz4.LZ4BlockOutputStream;
@@ -23,7 +23,7 @@ public class Lz4Compressor extends AbstractCompressor {
      * @param data 原比特数组
      * @return 压缩后的数据
      */
-    @SneakyThrows
+    @SneakyThrows({Throwable.class, Exception.class})
     @Override
     protected byte[] doCompress(byte[] data) {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -39,7 +39,7 @@ public class Lz4Compressor extends AbstractCompressor {
      * @param data 压缩的数据
      * @return 原数据
      */
-    @SneakyThrows
+    @SneakyThrows({Throwable.class, Exception.class})
     @Override
     protected byte[] doUnCompress(byte[] data) {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();

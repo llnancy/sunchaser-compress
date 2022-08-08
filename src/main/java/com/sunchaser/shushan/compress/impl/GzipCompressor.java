@@ -1,20 +1,20 @@
-package com.sunchaser.compress.impl;
+package com.sunchaser.shushan.compress.impl;
 
-import com.sunchaser.compress.util.IoUtils;
+import com.sunchaser.shushan.compress.util.IoUtils;
 import lombok.SneakyThrows;
-import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
-import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 /**
- * 基于bzip2算法实现的压缩与解压缩
+ * 基于Gzip算法实现的压缩与解压缩
  *
  * @author sunchaser admin@lilu.org.cn
- * @since JDK8 2022/7/20
+ * @since JDK8 2022/7/15
  */
-public class Bzip2Compressor extends AbstractCompressor {
+public class GzipCompressor extends AbstractCompressor {
 
     /**
      * 将数据进行压缩
@@ -22,12 +22,12 @@ public class Bzip2Compressor extends AbstractCompressor {
      * @param data 原比特数组
      * @return 压缩后的数据
      */
-    @SneakyThrows
+    @SneakyThrows({Throwable.class, Exception.class})
     @Override
     protected byte[] doCompress(byte[] data) {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
-             BZip2CompressorOutputStream bzip2 = new BZip2CompressorOutputStream(bos)) {
-            bzip2.write(data);
+             GZIPOutputStream gzip = new GZIPOutputStream(bos)) {
+            gzip.write(data);
             return bos.toByteArray();
         }
     }
@@ -38,11 +38,11 @@ public class Bzip2Compressor extends AbstractCompressor {
      * @param data 压缩的数据
      * @return 原数据
      */
-    @SneakyThrows
+    @SneakyThrows({Throwable.class, Exception.class})
     @Override
     protected byte[] doUnCompress(byte[] data) {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
-             BZip2CompressorInputStream unzip = new BZip2CompressorInputStream(new ByteArrayInputStream(data))) {
+             GZIPInputStream unzip = new GZIPInputStream(new ByteArrayInputStream(data))) {
             IoUtils.copy(unzip, bos);
             return bos.toByteArray();
         }

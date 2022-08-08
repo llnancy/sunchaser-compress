@@ -1,6 +1,6 @@
-package com.sunchaser.compress.impl;
+package com.sunchaser.shushan.compress.impl;
 
-import com.sunchaser.compress.Compressor;
+import com.sunchaser.shushan.compress.Compressor;
 
 import java.util.Objects;
 

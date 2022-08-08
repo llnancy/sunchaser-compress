@@ -1,4 +1,4 @@
-package com.sunchaser.compress.util;
+package com.sunchaser.shushan.compress.util;
 
 import lombok.SneakyThrows;
 
@@ -44,7 +44,7 @@ public class IoUtils {
      * @param out        输出流
      * @param bufferSize 缓存大小
      */
-    @SneakyThrows
+    @SneakyThrows({Throwable.class, Exception.class})
     public static void copy(InputStream in, OutputStream out, int bufferSize) {
         Objects.requireNonNull(in, "InputStream is null !");
         Objects.requireNonNull(out, "OutputStream is null !");

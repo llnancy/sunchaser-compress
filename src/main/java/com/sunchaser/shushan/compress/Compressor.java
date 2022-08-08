@@ -1,4 +1,4 @@
-package com.sunchaser.compress;
+package com.sunchaser.shushan.compress;
 
 /**
  * 压缩器

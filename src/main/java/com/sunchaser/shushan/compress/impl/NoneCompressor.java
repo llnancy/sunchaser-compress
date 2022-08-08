@@ -1,4 +1,4 @@
-package com.sunchaser.compress.impl;
+package com.sunchaser.shushan.compress.impl;
 
 /**
  * 不进行压缩
